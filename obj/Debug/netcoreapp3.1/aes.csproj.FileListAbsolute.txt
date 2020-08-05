@@ -1,0 +1,13 @@
+/home/backyard/Documents/aes/obj/Debug/netcoreapp3.1/aes.csprojAssemblyReference.cache
+/home/backyard/Documents/aes/obj/Debug/netcoreapp3.1/aes.AssemblyInfoInputs.cache
+/home/backyard/Documents/aes/obj/Debug/netcoreapp3.1/aes.AssemblyInfo.cs
+/home/backyard/Documents/aes/obj/Debug/netcoreapp3.1/aes.csproj.CoreCompileInputs.cache
+/home/backyard/Documents/aes/bin/Debug/netcoreapp3.1/aes
+/home/backyard/Documents/aes/bin/Debug/netcoreapp3.1/aes.deps.json
+/home/backyard/Documents/aes/bin/Debug/netcoreapp3.1/aes.runtimeconfig.json
+/home/backyard/Documents/aes/bin/Debug/netcoreapp3.1/aes.runtimeconfig.dev.json
+/home/backyard/Documents/aes/bin/Debug/netcoreapp3.1/aes.dll
+/home/backyard/Documents/aes/bin/Debug/netcoreapp3.1/aes.pdb
+/home/backyard/Documents/aes/obj/Debug/netcoreapp3.1/aes.dll
+/home/backyard/Documents/aes/obj/Debug/netcoreapp3.1/aes.pdb
+/home/backyard/Documents/aes/obj/Debug/netcoreapp3.1/aes.genruntimeconfig.cache
