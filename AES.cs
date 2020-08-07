@@ -176,12 +176,12 @@ namespace aes {
 
             addRoundKey(block, roundKeys[0]);
             for (int i = 1; i < round; i++) {
-                subBytes(block);
+                subBytes(block, S_BOX);
                 shiftRows(block);
                 mixColumns(block, MIX_MATRIX);
                 addRoundKey(block, roundKeys[i]);
             }
-            subBytes(block);
+            subBytes(block, S_BOX);
             shiftRows(block);
             addRoundKey(block, roundKeys[round]);
 
@@ -193,12 +193,12 @@ namespace aes {
             
             addRoundKey(block, roundKeys[round]);
             invShiftRows(block);
-            invSubBytes(block);
+            subBytes(block, INV_S_BOX);
             for (int i = round - 1; i > 0; i--) {
                 addRoundKey(block, roundKeys[i]);
                 mixColumns(block, INV_MIX_MATRIX);
                 invShiftRows(block);
-                invSubBytes(block);
+                subBytes(block, INV_S_BOX);
             }
             addRoundKey(block, roundKeys[0]);
 
@@ -213,12 +213,12 @@ namespace aes {
             }
         }
 
-        private static void subBytes(byte[,] block) {
+        private static void subBytes(byte[,] block, byte[,] sBox) {
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 4; j++) {
                     int si = block[i, j] >> 4;
                     int sj = block[i, j] & 15;
-                    block[i, j] = S_BOX[si, sj];
+                    block[i, j] = sBox[si, sj];
                 }
             }
         }
@@ -257,16 +257,6 @@ namespace aes {
                     block[i,2] = block[i,1];
                     block[i,1] = block[i,0];
                     block[i,0] = temp;
-                }
-            }
-        }
-        
-        private static void invSubBytes(byte[,] block) {
-            for (int i = 0; i < 4; i++) {
-                for (int j = 0; j < 4; j++) {
-                    int si = block[i, j] >> 4;
-                    int sj = block[i, j] & 15;
-                    block[i, j] = INV_S_BOX[si, sj];
                 }
             }
         }
