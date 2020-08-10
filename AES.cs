@@ -102,7 +102,7 @@ namespace aes {
             byte[,] firstKeyRound = genBlock(ASCII.GetBytes(secretKey));
             listKeys.Add(firstKeyRound);
 
-            for (int i = 0; i < round + 1; i++) {
+            for (int i = 0; i < R_CON.Count; i++) {
                 byte[,] prevKey = listKeys[^1];
                 byte[] firstCol = new byte[4] { prevKey[0,3], prevKey[1,3], prevKey[2,3], prevKey[3,3] };
                 // shift Column
@@ -273,36 +273,32 @@ namespace aes {
         */
         
         private static byte mix(byte a, int b) {
-            if (b == 2) {
-                if (a * b > 0xff) {
-                    return (byte)((a * b) ^ 0x1b);
-                }
-                return (byte)(a * b);
+            switch (b) {
+                case 1: return a;
+                case 2:
+                    if (a * b > 0xff) {
+                        return (byte)((a * b) ^ 0x1b);
+                    }
+                    return (byte)(a * b);
+                case 3:
+                    if (a * 2 > 0xff) {
+                        return (byte)((a * 2) ^ 0x1b ^ a);
+                    }
+                    return (byte)((a * 2) ^ a);
+                case 9:
+                    // (((a x 2) x 2) x 2) + x
+                    return (byte)(mix(mix(mix(a, 2), 2), 2) ^ a);
+                case 11:
+                    // ((((a × 2) × 2) + a) × 2) + a
+                    return (byte)(mix((byte)(mix(mix(a, 2), 2) ^ a), 2) ^ a);
+                case 13:
+                    // ((((a × 2) + a) × 2) × 2) + a
+                    return (byte)(mix(mix((byte)(mix(a, 2) ^ a), 2), 2) ^ a);
+                case 14:
+                    // ((((a × 2) + a) × 2) + a) x 2 
+                    return mix((byte)(mix((byte)(mix(a, 2) ^ a), 2) ^ a), 2);
+                default: return 0;
             }
-            if (b == 3) {
-                if (a * 2 > 0xff) {
-                    return (byte)((a * 2) ^ 0x1b ^ a);
-                }
-                return (byte)((a * 2) ^ a);
-            }
-            if (b == 9) {
-                // (((a x 2) x 2) x 2) + x
-                return (byte)(mix(mix(mix(a, 2), 2), 2) ^ a);
-            }
-            if (b == 11) {
-                // ((((a × 2) × 2) + a) × 2) + a
-                return (byte)(mix((byte)(mix(mix(a, 2), 2) ^ a), 2) ^ a);
-            }
-            if (b == 13) {
-                // ((((a × 2) + a) × 2) × 2) + a
-                return (byte)(mix(mix((byte)(mix(a, 2) ^ a), 2), 2) ^ a);
-            }
-            if (b == 14) {
-                // ((((a × 2) + a) × 2) + a) x 2 
-                return mix((byte)(mix((byte)(mix(a, 2) ^ a), 2) ^ a), 2);
-            }
-
-            return a;
         }
 
         private static byte[,] genBlock(byte[] data) {
